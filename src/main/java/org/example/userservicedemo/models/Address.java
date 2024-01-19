@@ -1,7 +1,6 @@
 package org.example.userservicedemo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +13,6 @@ public class Address extends BaseModel{
     private String city;
     private String zipCode;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Geolocation geolocation;
 }

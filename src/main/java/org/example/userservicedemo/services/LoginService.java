@@ -18,7 +18,7 @@ public class LoginService {
         this.userRepository = userRepository;
     }
 
-    public String login(String username, String password){
+    public String authenticateLogin(String username, String password){
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if(optionalUser.isEmpty()){
             throw new UserNotFoundException("Invalid username!");

@@ -16,10 +16,10 @@ public class User extends BaseModel{
     private String username;
     private String password;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Name name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Address address;
 
     private String phoneNumber;
