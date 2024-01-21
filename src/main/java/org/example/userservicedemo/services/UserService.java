@@ -10,6 +10,8 @@ import org.example.userservicedemo.repositories.GeoLocationRepository;
 import org.example.userservicedemo.repositories.NameRepository;
 import org.example.userservicedemo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,19 +38,19 @@ public class UserService {
 
     }
 
-    public User getUser(Long id){
+    public ResponseEntity<User> getUser(Long id){
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()){
             throw new UserNotFoundException("User not found!");
         }
-        return optionalUser.get();
+        return ResponseEntity.ok(optionalUser.get());
     }
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getAllUsers(){
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
-    public User addUser(User user){
+    public ResponseEntity<User> addUser(User user){
         //SETTING NAME ATTRIBUTE
         Name givenName = user.getName();
         Optional<Name> optionalName = nameRepository.findByFirstNameAndLastName(givenName.getFirstName(), givenName.getLastName());
@@ -76,10 +78,10 @@ public class UserService {
         savedUser.setEmail(user.getEmail());
         savedUser.setPhoneNumber(user.getPhoneNumber());
 
-        return savedUser;
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    public User updateUser(Long id, User user){
+    public ResponseEntity<User> updateUser(Long id, User user){
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()){
             throw new UserNotFoundException("User with id: " + id + " not found!");
@@ -108,10 +110,10 @@ public class UserService {
             existingUser.setAddress(savedAddress);
         }
 
-        return userRepository.save(existingUser);
+        return new ResponseEntity<>(userRepository.save(existingUser), HttpStatus.OK);
     }
 
-    public User replaceUser(Long id, User user){
+    public ResponseEntity<User> replaceUser(Long id, User user){
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()){
             throw new UserNotFoundException("User with id: " + id + " not found!");
@@ -131,16 +133,16 @@ public class UserService {
 
         existingUser.setPhoneNumber(user.getPhoneNumber());
 
-        return userRepository.save(existingUser);
+        return new ResponseEntity<>(userRepository.save(existingUser), HttpStatus.OK);
     }
 
-    public boolean deleteUser(Long id){
+    public ResponseEntity<String> deleteUser(Long id){
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()){
             throw new UserNotFoundException("User with id: " + id + " not found!");
         }
         userRepository.deleteById(id);
-        return true;
+        return new ResponseEntity<>("User with id: " + id + " deleted successfully!", HttpStatus.OK);
     }
 
 
