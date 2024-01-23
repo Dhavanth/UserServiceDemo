@@ -51,32 +51,34 @@ public class UserService {
     }
 
     public ResponseEntity<User> addUser(User user){
-        //SETTING NAME ATTRIBUTE
-        Name givenName = user.getName();
-        Optional<Name> optionalName = nameRepository.findByFirstNameAndLastName(givenName.getFirstName(), givenName.getLastName());
-        if(optionalName.isEmpty()){
-            Name savedName = nameRepository.save(givenName);
-            user.setName(savedName);
-        }else{
-            user.setName(optionalName.get());
-        }
+//        //SETTING NAME ATTRIBUTE
+//        Name givenName = user.getName();
+//        Optional<Name> optionalName = nameRepository.findByFirstNameAndLastName(givenName.getFirstName(), givenName.getLastName());
+//        if(optionalName.isEmpty()){
+//            Name savedName = nameRepository.save(givenName);
+//            user.setName(savedName);
+//        }else{
+//            user.setName(optionalName.get());
+//        }
+//
+//        //SETTING ADDRESS ATTRIBUTE
+//        Address givenAddress = user.getAddress();
+//        Geolocation givenGeolocation = givenAddress.getGeolocation();
+//        Optional<Geolocation> optionalGeolocation = geoLocationRepository.findByLatitudeAndLongitude(givenGeolocation.getLatitude(), givenGeolocation.getLongitude());
+//        if(optionalGeolocation.isEmpty()) {
+//            Geolocation savedGeolocation = geoLocationRepository.save(givenGeolocation);
+//            givenAddress.setGeolocation(savedGeolocation);
+//        }else{
+//            givenAddress.setGeolocation(optionalGeolocation.get());
+//        }
+//        user.setAddress(addressRepository.save(givenAddress));
+//        User savedUser = userRepository.save(user);
+//        savedUser.setUsername(user.getUsername());
+//        savedUser.setPassword(user.getPassword());
+//        savedUser.setEmail(user.getEmail());
+//        savedUser.setPhoneNumber(user.getPhoneNumber());
 
-        //SETTING ADDRESS ATTRIBUTE
-        Address givenAddress = user.getAddress();
-        Geolocation givenGeolocation = givenAddress.getGeolocation();
-        Optional<Geolocation> optionalGeolocation = geoLocationRepository.findByLatitudeAndLongitude(givenGeolocation.getLatitude(), givenGeolocation.getLongitude());
-        if(optionalGeolocation.isEmpty()) {
-            Geolocation savedGeolocation = geoLocationRepository.save(givenGeolocation);
-            givenAddress.setGeolocation(savedGeolocation);
-        }else{
-            givenAddress.setGeolocation(optionalGeolocation.get());
-        }
-        user.setAddress(addressRepository.save(givenAddress));
         User savedUser = userRepository.save(user);
-        savedUser.setUsername(user.getUsername());
-        savedUser.setPassword(user.getPassword());
-        savedUser.setEmail(user.getEmail());
-        savedUser.setPhoneNumber(user.getPhoneNumber());
 
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }

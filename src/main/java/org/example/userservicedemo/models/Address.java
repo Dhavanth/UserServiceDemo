@@ -13,6 +13,6 @@ public class Address extends BaseModel{
     private String city;
     private String zipCode;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private Geolocation geolocation;
 }
